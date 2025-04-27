@@ -1,93 +1,116 @@
-# Jachacks Agenda and Financial App
+# Auth0 Next.js SDK Sample Application
 
-This project is a Next.js application built with TypeScript, designed to provide users with an agenda view integrated with Google Calendar and a basic financial overview.
+This sample demonstrates the integration of [Auth0 Next.js SDK](https://github.com/auth0/nextjs-auth0) into a Next.js application created using [create-next-app](https://nextjs.org/docs/api-reference/create-next-app). The sample is a companion to the [Auth0 Next.js SDK Quickstart](https://auth0.com/docs/quickstart/webapp/nextjs).
 
-## Features
+This sample demonstrates the following use cases:
 
-*   User authentication using NextAuth.js
-*   Google Calendar integration to display events
-*   Agenda view powered by `react-big-calendar`
-*   Basic financial overview and recommendations
-*   Responsive design using Tailwind CSS
+- [Login](https://github.com/auth0-samples/auth0-nextjs-samples/blob/main/Sample-01/components/NavBar.jsx#L61-L67)
+- [Logout](https://github.com/auth0-samples/auth0-nextjs-samples/blob/main/Sample-01/components/NavBar.jsx#L93-L95)
+- [Showing the user profile](https://github.com/auth0-samples/auth0-nextjs-samples/blob/main/Sample-01/pages/profile.jsx)
+- [Protecting client-side rendered pages](https://github.com/auth0-samples/auth0-nextjs-samples/blob/main/Sample-01/pages/profile.jsx#L43-L46)
+- [Calling APIs](https://github.com/auth0-samples/auth0-nextjs-samples/blob/main/Sample-01/pages/external.jsx)
 
-## Technologies Used
+## Project setup
 
-*   Next.js
-*   TypeScript
-*   React
-*   NextAuth.js
-*   react-big-calendar
-*   Tailwind CSS
-*   Moment.js
-
-## Project Structure
-
-*   `src/app/`: Contains the main application pages and API routes.
-    *   `page.tsx`: The main landing page handling authentication and rendering core components.
-    *   `api/auth/[...nextauth]/route.ts`: NextAuth.js configuration for authentication routes.
-*   `src/components/`: Houses reusable React components.
-    *   `Agenda.tsx`: Component for displaying the calendar and fetching Google Calendar events.
-    *   `FinancialOverview.tsx`: Component for displaying financial information.
-    *   `Sidebar.tsx`: Sidebar navigation component.
-    *   `ThemeToggle.tsx`: Component for toggling themes.
-    *   `ui/`: Contains UI components, likely from a library like Shadcn UI.
-*   `src/context/`: Contains React context providers.
-    *   `ThemeContext.tsx`: Context for managing the application's theme.
-*   `src/lib/`: Utility functions or libraries.
-    *   `utils.ts`: General utility functions.
-*   `src/utils/`: Helper functions, including AI-related logic.
-    *   `aiAssistant.ts`: Contains basic financial analysis and recommendation logic.
-*   `public/`: Static assets.
-*   `package.json`: Project dependencies and scripts.
-*   `tsconfig.json`: TypeScript configuration.
-*   `next.config.ts`: Next.js configuration.
-*   `postcss.config.mjs`: PostCSS configuration (for Tailwind CSS).
-*   `eslint.config.mjs`: ESLint configuration.
-
-## Setup
-
-1.  **Clone the repository:**
-    ```bash
-    git clone [repository_url]
-    cd jachacks
-    ```
-2.  **Install dependencies:**
-    ```bash
-    pnpm install
-    ```
-    (or `npm install` or `yarn install` if you are not using pnpm)
-3.  **Set up Environment Variables:**
-    Create a `.env.local` file in the root directory and add the necessary environment variables for NextAuth.js and Google Calendar API. You will need to set up a Google Cloud project and enable the Calendar API to get the required credentials.
-
-    ```env
-    NEXTAUTH_URL=http://localhost:3000
-    NEXTAUTH_SECRET=YOUR_NEXTAUTH_SECRET
-    GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID
-    GOOGLE_CLIENT_SECRET=YOUR_GOOGLE_CLIENT_SECRET
-    ```
-    Replace the placeholder values with your actual credentials.
-
-## Running the Project
-
-To run the project in development mode:
+Use `npm` to install the project dependencies:
 
 ```bash
-pnpm run dev
+npm install
 ```
-(or `npm run dev` or `yarn dev`)
 
-The application will be available at `http://localhost:3000`.
+## Configuration
 
-To build the project for production:
+### Create an API
+
+For the **External API** page to work, you will need to [create an API](https://auth0.com/docs/authorization/apis) using the [management dashboard](https://manage.auth0.com/#/apis). This will give you an API Identifier that you can use in the `AUTH0_AUDIENCE` environment variable below. Then you will need to [add a permission](https://auth0.com/docs/get-started/dashboard/add-api-permissions) named `read:shows` to your API. To get your app to ask for that permission, include it in the value of the `AUTH0_SCOPE` environment variable.
+
+If you do not wish to use an API or observe the API call working, you should not specify the `AUTH0_AUDIENCE` and `AUTH0_SCOPE` values in the next steps.
+
+### Configure credentials
+
+The project needs to be configured with your Auth0 Domain, Client ID and Client Secret for the authentication flow to work.
+
+To do this, first copy `.env.local.example` into a new file in the same folder called `.env.local`, and replace the values with your own Auth0 application credentials (see more info about [loading environmental variables in Next.js](https://nextjs.org/docs/basic-features/environment-variables)):
+
+```sh
+# A long secret value used to encrypt the session cookie
+AUTH0_SECRET='LONG_RANDOM_VALUE'
+# The base url of your application
+APP_BASE_URL='http://localhost:3000'
+# Your Auth0 tenant domain
+AUTH0_DOMAIN='YOUR_AUTH0_DOMAIN.auth0.com'
+# Your Auth0 application's Client ID
+AUTH0_CLIENT_ID='YOUR_AUTH0_CLIENT_ID'
+# Your Auth0 application's Client Secret
+AUTH0_CLIENT_SECRET='YOUR_AUTH0_CLIENT_SECRET'
+# Your Auth0 API's Identifier 
+# OMIT if you do not want to use the API part of the sample
+AUTH0_AUDIENCE='YOUR_AUTH0_API_IDENTIFIER'
+# The permissions your app is asking for
+# OMIT if you do not want to use the API part of the sample
+AUTH0_SCOPE='openid profile email read:shows'
+```
+
+**Note**: Make sure you replace `AUTH0_SECRET` with your own secret (you can generate a suitable string using `openssl rand -hex 32` on the command line).
+
+## Run the sample
+
+### Compile and hot-reload for development
+
+This compiles and serves the Next.js app and starts the API server on port 3001.
 
 ```bash
-pnpm run build
+npm run dev
 ```
-(or `npm run build` or `yarn build`)
 
-To start the production server:
+## Deployment
+
+### Compiles and minifies for production
 
 ```bash
-pnpm run start
+npm run build
 ```
-(or `npm run start` or `yarn start`)
+
+### Docker build
+
+To build and run the Docker image, run `exec.sh`, or `exec.ps1` on Windows.
+
+### Run the unit tests
+
+```bash
+npm run test
+```
+
+### Run the integration tests
+
+```bash
+npm run test:integration
+```
+
+## What is Auth0?
+
+Auth0 helps you to:
+
+* Add authentication with [multiple sources](https://auth0.com/docs/identityproviders), either social identity providers such as **Google, Facebook, Microsoft Account, LinkedIn, GitHub, Twitter, Box, Salesforce** (amongst others), or enterprise identity systems like **Windows Azure AD, Google Apps, Active Directory, ADFS, or any SAML Identity Provider**.
+* Add authentication through more traditional **[username/password databases](https://auth0.com/docs/connections/database/custom-db)**.
+* Add support for **[linking different user accounts](https://auth0.com/docs/users/user-account-linking)** with the same user.
+* Support for generating signed [JSON Web Tokens](https://auth0.com/docs/tokens/json-web-tokens) to call your APIs and **flow the user identity** securely.
+* Analytics of how, when, and where users are logging in.
+* Pull data from other sources and add it to the user profile through [JavaScript rules](https://auth0.com/docs/rules).
+
+## Create a Free Auth0 Account
+
+1. Go to [Auth0](https://auth0.com) and click **Sign Up**.
+2. Use Google, GitHub, or Microsoft Account to login.
+
+## Issue Reporting
+
+If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/responsible-disclosure-policy) details the procedure for disclosing security issues.
+
+## Author
+
+[Auth0](https://auth0.com)
+
+## License
+
+This project is licensed under the MIT license. See the [LICENSE](./LICENSE) file for more info.
