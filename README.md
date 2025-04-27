@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Jachacks Agenda and Financial App
 
-## Getting Started
+This project is a Next.js application built with TypeScript, designed to provide users with an agenda view integrated with Google Calendar and a basic financial overview.
 
-First, run the development server:
+## Features
+
+*   User authentication using NextAuth.js
+*   Google Calendar integration to display events
+*   Agenda view powered by `react-big-calendar`
+*   Basic financial overview and recommendations
+*   Responsive design using Tailwind CSS
+
+## Technologies Used
+
+*   Next.js
+*   TypeScript
+*   React
+*   NextAuth.js
+*   react-big-calendar
+*   Tailwind CSS
+*   Moment.js
+
+## Project Structure
+
+*   `src/app/`: Contains the main application pages and API routes.
+    *   `page.tsx`: The main landing page handling authentication and rendering core components.
+    *   `api/auth/[...nextauth]/route.ts`: NextAuth.js configuration for authentication routes.
+*   `src/components/`: Houses reusable React components.
+    *   `Agenda.tsx`: Component for displaying the calendar and fetching Google Calendar events.
+    *   `FinancialOverview.tsx`: Component for displaying financial information.
+    *   `Sidebar.tsx`: Sidebar navigation component.
+    *   `ThemeToggle.tsx`: Component for toggling themes.
+    *   `ui/`: Contains UI components, likely from a library like Shadcn UI.
+*   `src/context/`: Contains React context providers.
+    *   `ThemeContext.tsx`: Context for managing the application's theme.
+*   `src/lib/`: Utility functions or libraries.
+    *   `utils.ts`: General utility functions.
+*   `src/utils/`: Helper functions, including AI-related logic.
+    *   `aiAssistant.ts`: Contains basic financial analysis and recommendation logic.
+*   `public/`: Static assets.
+*   `package.json`: Project dependencies and scripts.
+*   `tsconfig.json`: TypeScript configuration.
+*   `next.config.ts`: Next.js configuration.
+*   `postcss.config.mjs`: PostCSS configuration (for Tailwind CSS).
+*   `eslint.config.mjs`: ESLint configuration.
+
+## Setup
+
+1.  **Clone the repository:**
+    ```bash
+    git clone [repository_url]
+    cd jachacks
+    ```
+2.  **Install dependencies:**
+    ```bash
+    pnpm install
+    ```
+    (or `npm install` or `yarn install` if you are not using pnpm)
+3.  **Set up Environment Variables:**
+    Create a `.env.local` file in the root directory and add the necessary environment variables for NextAuth.js and Google Calendar API. You will need to set up a Google Cloud project and enable the Calendar API to get the required credentials.
+
+    ```env
+    NEXTAUTH_URL=http://localhost:3000
+    NEXTAUTH_SECRET=YOUR_NEXTAUTH_SECRET
+    GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID
+    GOOGLE_CLIENT_SECRET=YOUR_GOOGLE_CLIENT_SECRET
+    ```
+    Replace the placeholder values with your actual credentials.
+
+## Running the Project
+
+To run the project in development mode:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm run dev
 ```
+(or `npm run dev` or `yarn dev`)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To build the project for production:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm run build
+```
+(or `npm run build` or `yarn build`)
 
-## Learn More
+To start the production server:
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+pnpm run start
+```
+(or `npm run start` or `yarn start`)

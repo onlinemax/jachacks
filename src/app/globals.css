@@ -127,6 +127,7 @@
 
 .dark .agenda-calendar .rbc-day-bg.rbc-today {
   background-color: oklch(0.21 0.034 264.665);
+  border-color: white;
 }
 
 .dark .agenda-calendar .rbc-off-range-bg {
@@ -140,7 +141,6 @@
 .dark .agenda-calendar .rbc-toolbar button {
   color: oklch(0.985 0.002 247.839);
   background-color: transparent;
-  border: none;
 }
 
 .agenda-calendar .rbc-month-view,
@@ -171,4 +171,14 @@
 .dark .agenda-calendar .rbc-time-header,
 .dark .agenda-calendar .rbc-time-content {
   border-color: var(--ring);
+}
+
+/* Prevent selected cells from changing color in dark mode */
+.dark .agenda-calendar .rbc-day-bg.rbc-selected {
+  background-color: inherit !important; /* Or a specific dark mode color */
+}
+
+/* Prevent selection overlay from changing color in dark mode */
+.dark .agenda-calendar .rbc-slot-selection {
+  background-color: transparent !important;
 }
